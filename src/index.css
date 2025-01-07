@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply antialiased;
+}
+
+/* Grid layout adjustments */
+.grid {
+  width: calc(100% + 2px);
+  margin-left: -1px;
+}
+
+.grid > div {
+  width: 100%;
+  height: 100%;
+}
+
+/* Remove default button styles */
+button {
+  @apply font-normal;
+  letter-spacing: 0.5px;
+}
+
+/* Smooth image loading */
+img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  @apply transition-opacity duration-300;
+}
