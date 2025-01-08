@@ -745,6 +745,24 @@ function LandingPage() {
 
       {/* Footer */}
       <footer className="relative bg-black/95 border-t border-white/10">
+        {/* Quote Section - Added before the main footer content */}
+        <div className="container mx-auto px-6 md:px-12 py-20 border-b border-white/10">
+          <motion.div
+            className="max-w-4xl mx-auto text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="font-space-grotesk text-xl md:text-2xl lg:text-3xl text-white/80 italic mb-4">
+              "If light was music then Cinematography is a dance"
+            </p>
+            <span className="font-syncopate text-sm tracking-wider text-[#c70f0f]">
+              ~ AUSTIN MORARA ~
+            </span>
+          </motion.div>
+        </div>
+
+        {/* Rest of the footer content */}
         <div className="container mx-auto px-6 md:px-12 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {/* Brand */}
