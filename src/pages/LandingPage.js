@@ -95,11 +95,18 @@ function LandingPage() {
 
   const categories = ['All', 'Corporate', 'Documentary', 'Commercial', 'Music Video'];
 
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <motion.div ref={containerRef} className="relative bg-black min-h-screen overflow-x-hidden">
       {/* Fixed Navigation Bar with dynamic background */}
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 md:px-12 py-4 transition-all duration-300 ${
           isScrolled ? 'backdrop-blur-sm bg-black/50 border-b border-white/5' : 'bg-transparent'
         }`}
         initial={{ y: -20, opacity: 0 }}
@@ -107,24 +114,30 @@ function LandingPage() {
         transition={{ duration: 0.8 }}
       >
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-6 sm:gap-12">
             <motion.img
-              src="/logo.jpg"
+              src="/logo.png"
               alt="Urban Takes Production"
-              className="h-8 md:h-10 w-auto"
+              className="h-16 sm:h-20 md:h-24 w-16 sm:w-20 md:w-24 rounded-full object-cover -my-4"
               whileHover={{ scale: 1.05 }}
             />
             <div className="hidden lg:flex items-center gap-8">
-              {['Work', 'About', 'Process', 'Contact'].map((item, index) => (
+              {[
+                { name: 'Work', section: 'work' },
+                { name: 'Services', section: 'services' },
+                { name: 'About', section: 'about' },
+                { name: 'Contact', section: 'contact' }
+              ].map((item, index) => (
                 <motion.button
-                  key={item}
-                  className="text-sm font-space-grotesk text-white/60 hover:text-white transition-colors"
+                  key={item.name}
+                  onClick={() => scrollToSection(item.section)}
+                  className="text-sm font-space-grotesk text-white/60 hover:text-white transition-colors cursor-pointer"
                   whileHover={{ y: -2 }}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.8 + index * 0.1 }}
                 >
-                  {item}
+                  {item.name}
                 </motion.button>
               ))}
             </div>
@@ -139,7 +152,7 @@ function LandingPage() {
       </motion.nav>
 
       {/* Hero Section with adjusted spacing */}
-      <div className="relative min-h-screen">
+      <div id="home" className="relative min-h-screen">
         <div className="pt-16"> {/* Reduced from pt-24 to pt-16 */}
           {/* Animated Background Grid */}
           <div className="fixed inset-0 z-0">
@@ -317,7 +330,7 @@ function LandingPage() {
       </div>
 
       {/* Featured Projects Section */}
-      <section className="relative min-h-screen bg-black/90 py-24">
+      <section id="work" className="relative min-h-screen bg-black/90 py-24">
         {/* Background Elements - Lower z-index */}
         <motion.div
           className="absolute inset-0 opacity-20 z-0"
@@ -454,6 +467,378 @@ function LandingPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* Services Section */}
+      <section id="services" className="relative min-h-screen bg-black py-24">
+        {/* Enhanced Background Elements */}
+        <motion.div className="absolute inset-0">
+          <div className="absolute left-0 top-0 w-1/2 h-1/2 bg-[#c70f0f]/20 blur-[120px] rotate-12 opacity-40" />
+          <div className="absolute right-0 bottom-0 w-1/2 h-1/2 bg-yellow-500/20 blur-[120px] -rotate-12 opacity-40" />
+          <div className="absolute inset-0 bg-black/40" /> {/* Overlay for depth */}
+        </motion.div>
+
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
+          {/* Section Header with enhanced animation */}
+          <div className="text-center mb-20">
+            <motion.span
+              className="font-space-grotesk text-[#c70f0f] text-sm tracking-[0.3em] uppercase block mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              What We Do
+            </motion.span>
+            <motion.h2
+              className="font-syncopate text-4xl md:text-6xl font-bold mb-8 relative inline-block"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <span className="bg-gradient-to-r from-white via-white to-white/50 text-transparent bg-clip-text">
+                OUR SERVICES
+              </span>
+            </motion.h2>
+          </div>
+
+          {/* Enhanced Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Commercial Production",
+                description: "Compelling brand stories that resonate with your audience",
+                icon: "🎬",
+                gradient: "from-[#c70f0f]/20 to-transparent"
+              },
+              {
+                title: "Corporate Films",
+                description: "Professional company narratives and promotional content",
+                icon: "🏢",
+                gradient: "from-yellow-500/20 to-transparent"
+              },
+              {
+                title: "Music Videos",
+                description: "Creative visual storytelling for artists and bands",
+                icon: "🎵",
+                gradient: "from-[#c70f0f]/20 to-transparent"
+              },
+              {
+                title: "Documentary",
+                description: "In-depth storytelling that captures real-life moments",
+                icon: "📽",
+                gradient: "from-yellow-500/20 to-transparent"
+              },
+              {
+                title: "Event Coverage",
+                description: "Dynamic capture of live events and experiences",
+                icon: "🎥",
+                gradient: "from-[#c70f0f]/20 to-transparent"
+              },
+              {
+                title: "Post Production",
+                description: "Expert editing, color grading, and visual effects",
+                icon: "✨",
+                gradient: "from-yellow-500/20 to-transparent"
+              }
+            ].map((service, index) => (
+              <motion.div
+                key={index}
+                className="group relative p-8 rounded-lg backdrop-blur-sm border border-white/10 hover:border-[#c70f0f]/50 transition-all duration-500"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -5, scale: 1.02 }}
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg`} />
+                <div className="relative z-10">
+                  <motion.span
+                    className="text-4xl mb-6 block"
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    {service.icon}
+                  </motion.span>
+                  <h3 className="font-syncopate text-xl font-bold mb-4 bg-gradient-to-r from-white to-white/90 text-transparent bg-clip-text">
+                    {service.title}
+                  </h3>
+                  <p className="font-space-grotesk text-white/60 group-hover:text-white/80 transition-colors">
+                    {service.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Enhanced Clients Section */}
+      <section className="relative py-24 bg-black/90">
+        {/* Dynamic Background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+          <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,#ffffff20_1px,transparent_1px),linear-gradient(to_bottom,#ffffff20_1px,transparent_1px)] bg-[size:24px_24px]" />
+        </div>
+
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
+          {/* Enhanced Section Header */}
+          <div className="text-center mb-20">
+            <motion.span
+              className="font-space-grotesk text-[#c70f0f] text-sm tracking-[0.3em] uppercase block mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              Our Clients
+            </motion.span>
+            <motion.h2
+              className="font-syncopate text-4xl md:text-6xl font-bold relative inline-block"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <span className="bg-gradient-to-r from-white via-white to-white/50 text-transparent bg-clip-text">
+                TRUSTED BY
+              </span>
+            </motion.h2>
+          </div>
+
+          {/* Enhanced Clients Logo Grid */}
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 items-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => (
+              <motion.div
+                key={index}
+                className="group relative flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-[#c70f0f]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg blur-xl" />
+                <motion.div
+                  className="w-32 h-12 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 relative overflow-hidden group-hover:border-[#c70f0f]/50 transition-all duration-500"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  {/* Placeholder for client logos */}
+                </motion.div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="relative min-h-screen bg-black py-24">
+        {/* Background Elements */}
+        <motion.div className="absolute inset-0">
+          <div className="absolute left-0 top-0 w-1/2 h-1/2 bg-[#c70f0f]/20 blur-[120px] rotate-12 opacity-40" />
+          <div className="absolute right-0 bottom-0 w-1/2 h-1/2 bg-yellow-500/20 blur-[120px] -rotate-12 opacity-40" />
+          <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,#ffffff20_1px,transparent_1px),linear-gradient(to_bottom,#ffffff20_1px,transparent_1px)] bg-[size:24px_24px]" />
+        </motion.div>
+
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-20">
+            <motion.span
+              className="font-space-grotesk text-[#c70f0f] text-sm tracking-[0.3em] uppercase block mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              Get In Touch
+            </motion.span>
+            <motion.h2
+              className="font-syncopate text-4xl md:text-6xl font-bold relative inline-block mb-8"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <span className="bg-gradient-to-r from-white via-white to-white/50 text-transparent bg-clip-text">
+                LET'S CREATE TOGETHER
+              </span>
+            </motion.h2>
+          </div>
+
+          {/* Contact Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Contact Form */}
+            <motion.div
+              className="backdrop-blur-sm border border-white/10 rounded-lg p-8"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <form className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-space-grotesk text-white/60">Name</label>
+                  <input
+                    type="text"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#c70f0f] transition-colors"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-space-grotesk text-white/60">Email</label>
+                  <input
+                    type="email"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#c70f0f] transition-colors"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-space-grotesk text-white/60">Message</label>
+                  <textarea
+                    rows={6}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#c70f0f] transition-colors"
+                  />
+                </div>
+                <motion.button
+                  className="w-full bg-[#c70f0f] text-white rounded-lg px-6 py-3 font-space-grotesk hover:bg-[#c70f0f]/90 transition-colors"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Send Message
+                </motion.button>
+              </form>
+            </motion.div>
+
+            {/* Contact Info */}
+            <motion.div
+              className="space-y-8"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              {[
+                {
+                  title: "Location",
+                  info: "Nairobi, Kenya",
+                  icon: "📍"
+                },
+                {
+                  title: "Email",
+                  info: "urbantakesproductions@gmail.com",
+                  icon: "✉️"
+                },
+                {
+                  title: "Phone",
+                  info: "+254 712 677 131",
+                  icon: "📞"
+                }
+              ].map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-start gap-6 p-6 rounded-lg border border-white/10 backdrop-blur-sm"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <span className="text-2xl">{item.icon}</span>
+                  <div>
+                    <h3 className="font-syncopate text-lg font-bold mb-2">{item.title}</h3>
+                    <p className="font-space-grotesk text-white/60">{item.info}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative bg-black/95 border-t border-white/10">
+        <div className="container mx-auto px-6 md:px-12 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            {/* Brand */}
+            <div className="space-y-6">
+              <img src="/logo.png" alt="Urban Takes Production" className="h-12 w-12 rounded-full" />
+              <p className="font-space-grotesk text-white/60 max-w-xs">
+                Crafting compelling visual narratives that captivate audiences and leave lasting impressions.
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="font-syncopate text-lg font-bold mb-6">Quick Links</h4>
+              <ul className="space-y-4 font-space-grotesk">
+                {[
+                  { name: 'Work', section: 'work' },
+                  { name: 'Services', section: 'services' },
+                  { name: 'About', section: 'about' },
+                  { name: 'Contact', section: 'contact' }
+                ].map((item, index) => (
+                  <motion.li
+                    key={index}
+                    whileHover={{ x: 5 }}
+                  >
+                    <button
+                      onClick={() => scrollToSection(item.section)}
+                      className="text-white/60 hover:text-white transition-colors cursor-pointer"
+                    >
+                      {item.name}
+                    </button>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Services Links */}
+            <div>
+              <h4 className="font-syncopate text-lg font-bold mb-6">Services</h4>
+              <ul className="space-y-4 font-space-grotesk">
+                {[
+                  { name: 'Commercial', section: 'services' },
+                  { name: 'Corporate', section: 'services' },
+                  { name: 'Music Videos', section: 'services' },
+                  { name: 'Documentary', section: 'services' }
+                ].map((item, index) => (
+                  <motion.li
+                    key={index}
+                    whileHover={{ x: 5 }}
+                  >
+                    <button
+                      onClick={() => scrollToSection(item.section)}
+                      className="text-white/60 hover:text-white transition-colors cursor-pointer"
+                    >
+                      {item.name}
+                    </button>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Social */}
+            <div>
+              <h4 className="font-syncopate text-lg font-bold mb-6">Follow Us</h4>
+              <div className="flex gap-4">
+                {['Instagram', 'Twitter', 'LinkedIn', 'Vimeo'].map((social, index) => (
+                  <motion.a
+                    key={index}
+                    href="#"
+                    className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-[#c70f0f] transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    {social[0]}
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="border-t border-white/10 mt-16 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="font-space-grotesk text-white/40 text-sm">
+              © 2024 Urban Takes Production. All rights reserved.
+            </p>
+            <div className="flex gap-6">
+              <a href="#" className="font-space-grotesk text-white/40 hover:text-white text-sm transition-colors">
+                Privacy Policy
+              </a>
+              <a href="#" className="font-space-grotesk text-white/40 hover:text-white text-sm transition-colors">
+                Terms of Service
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
 
     </motion.div>
   );
