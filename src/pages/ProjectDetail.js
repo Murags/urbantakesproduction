@@ -31,20 +31,10 @@ function ProjectDetail() {
     <div className="bg-black min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen">
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img
-            src={project.photos[0]}
-            alt={project.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
-        </div>
-
-        {/* Navigation */}
+        {/* Navigation - Moved above background image and increased z-index */}
         <motion.button
-          onClick={() => navigate(-1)}
-          className="absolute top-8 left-8 z-10 flex items-center gap-2 text-white/60 hover:text-white transition-colors"
+          onClick={() => navigate('/')}
+          className="fixed top-8 left-8 z-50 flex items-center gap-2 text-white/60 hover:text-white transition-colors cursor-pointer"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           whileHover={{ x: -5 }}
@@ -53,8 +43,18 @@ function ProjectDetail() {
           <span className="font-space-grotesk">Back</span>
         </motion.button>
 
-        {/* Project Title */}
-        <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-10">
+          <img
+            src={project.photos[0]}
+            alt={project.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
+        </div>
+
+        {/* Project Title - Adjusted z-index */}
+        <div className="relative z-20 h-full flex flex-col justify-center items-center text-center px-4">
           <motion.span
             className="font-space-grotesk text-[#c70f0f] text-sm tracking-[0.3em] uppercase block mb-4"
             initial={{ opacity: 0, y: 20 }}
