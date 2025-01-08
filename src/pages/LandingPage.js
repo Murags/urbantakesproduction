@@ -1,6 +1,8 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 import { FaArrowRight, FaPlay } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { projects, categories } from '../data/projects';
 
 function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -44,56 +46,9 @@ function LandingPage() {
 
   const [activeCategory, setActiveCategory] = useState('All');
 
-  const projects = [
-    {
-      title: "Brand Evolution",
-      category: "Corporate",
-      image: "https://images.unsplash.com/photo-1674574124649-778f9afc0e9c",
-      year: "2024",
-      client: "Tech Corp"
-    },
-    {
-      title: "Urban Stories",
-      category: "Documentary",
-      image: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809",
-      year: "2023",
-      client: "City Arts"
-    },
-    {
-      title: "Summer Collection",
-      category: "Commercial",
-      image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4",
-      year: "2024",
-      client: "Fashion Brand"
-    },
-    {
-      title: "Neon Dreams",
-      category: "Music Video",
-      image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819",
-      year: "2024",
-      client: "Artist Name"
-    },
-    {
-      title: "City Pulse",
-      category: "Documentary",
-      image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df",
-      year: "2023",
-      client: "Urban Channel"
-    },
-    {
-      title: "Product Launch",
-      category: "Corporate",
-      image: "https://images.unsplash.com/photo-1557804506-669a67965ba0",
-      year: "2024",
-      client: "Tech Start-up"
-    }
-  ];
-
   const filteredProjects = activeCategory === 'All'
     ? projects
     : projects.filter(project => project.category === activeCategory);
-
-  const categories = ['All', 'Corporate', 'Documentary', 'Commercial', 'Music Video'];
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -101,6 +56,8 @@ function LandingPage() {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const navigate = useNavigate();
 
   return (
     <motion.div ref={containerRef} className="relative bg-black min-h-screen overflow-x-hidden">
@@ -393,11 +350,12 @@ function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
             {filteredProjects.map((project, index) => (
               <motion.div
-                key={index}
-                className="group relative aspect-[16/9] overflow-hidden rounded-lg"
+                key={project.id}
+                className="group relative aspect-[16/9] overflow-hidden rounded-lg cursor-pointer"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.2 }}
+                onClick={() => navigate(`/project/${project.id}`)}
               >
                 {/* Project Image with Overlay */}
                 <motion.div
@@ -413,7 +371,7 @@ function LandingPage() {
                   />
                 </motion.div>
 
-                {/* Project Content - Always visible but enhanced on hover */}
+                {/* Project Content */}
                 <div className="absolute inset-0 z-20 p-8 flex flex-col justify-end transform transition-transform duration-300 group-hover:translate-y-0">
                   <div className="flex items-end justify-between">
                     <div>
@@ -430,13 +388,16 @@ function LandingPage() {
                     <motion.button
                       className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full font-space-grotesk text-sm text-white group/btn"
                       whileHover={{ x: 5 }}
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering parent onClick
+                        navigate(`/project/${project.id}`);
+                      }}
                     >
                       View
                       <FaArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                     </motion.button>
                   </div>
                 </div>
-
                 {/* Year Label */}
                 <div className="absolute top-6 right-6 z-20 bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full">
                   <span className="font-space-grotesk text-sm text-white">
