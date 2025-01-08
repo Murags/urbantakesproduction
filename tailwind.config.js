@@ -6,7 +6,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        'syncopate': ['Syncopate', 'sans-serif'],
+        'space-grotesk': ['Space Grotesk', 'sans-serif'],
+        'syne': ['Syne', 'sans-serif'],
       },
       transitionTimingFunction: {
         'out-expo': 'cubic-bezier(0.19, 1, 0.22, 1)',

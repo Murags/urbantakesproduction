@@ -4,6 +4,8 @@
 
 body {
   @apply antialiased;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* Grid layout adjustments */
@@ -30,4 +32,13 @@ img {
   height: 100%;
   object-fit: cover;
   @apply transition-opacity duration-300;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
 }
