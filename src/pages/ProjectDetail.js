@@ -4,8 +4,15 @@ import { FaArrowLeft, FaPlay } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 import { projects } from '../data/projects';
 
-// Add this helper function at the top of the file to extract YouTube ID
+// Updated helper function to handle both regular YouTube URLs and Shorts
 const getYouTubeId = (url) => {
+  // Handle shorts URLs
+  if (url.includes('/shorts/')) {
+    const shortsId = url.split('/shorts/')[1].split('?')[0];
+    return shortsId;
+  }
+
+  // Handle regular YouTube URLs
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
   const match = url.match(regExp);
   return (match && match[2].length === 11) ? match[2] : null;
@@ -15,7 +22,16 @@ function ProjectDetail() {
   const { id } = useParams();
   const project = projects.find(p => p.id === parseInt(id));
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('video'); // 'video' or 'photos'
+
+  // Determine available tabs based on content
+  const availableTabs = [
+    project.video && 'video',
+    project.photos?.length > 0 && 'photos',
+    project.reels?.length > 0 && 'reels'
+  ].filter(Boolean); // Remove falsy values
+
+  // Set initial active tab to the first available tab
+  const [activeTab, setActiveTab] = useState(availableTabs[0]);
 
   // Add error handling for non-existent projects
   if (!project) {
@@ -93,31 +109,33 @@ function ProjectDetail() {
       {/* Content Section */}
       <section className="relative py-24">
         <div className="container mx-auto px-6 md:px-12">
-          {/* Tabs */}
-          <div className="flex justify-center gap-8 mb-16">
-            {['video', 'photos'].map((tab) => (
-              <motion.button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`font-space-grotesk text-lg capitalize ${
-                  activeTab === tab ? 'text-white' : 'text-white/40'
-                }`}
-                whileHover={{ y: -2 }}
-              >
-                {tab}
-              </motion.button>
-            ))}
-          </div>
+          {/* Dynamic Tabs */}
+          {availableTabs.length > 0 && (
+            <div className="flex justify-center gap-8 mb-16">
+              {availableTabs.map((tab) => (
+                <motion.button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`font-space-grotesk text-lg capitalize ${
+                    activeTab === tab ? 'text-white' : 'text-white/40'
+                  }`}
+                  whileHover={{ y: -2 }}
+                >
+                  {tab}
+                </motion.button>
+              ))}
+            </div>
+          )}
 
-          {/* Video Content */}
-          {activeTab === 'video' && (
+          {/* Content sections remain the same, they'll only show if the tab is active */}
+          {activeTab === 'video' && project.video && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="aspect-video bg-black rounded-lg overflow-hidden relative"
             >
               <iframe
-                src={`https://www.youtube.com/embed/${getYouTubeId(project.video)}?vq=hd1080&modestbranding=1&rel=0`}
+                src={`https://www.youtube.com/embed/${getYouTubeId(project.video)}?vq=hd1080&modestbranding=1&rel=0&hd=1&quality=hd1080&playsinline=1`}
                 title={project.title}
                 className="w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -126,8 +144,7 @@ function ProjectDetail() {
             </motion.div>
           )}
 
-          {/* Photos Content */}
-          {activeTab === 'photos' && (
+          {activeTab === 'photos' && project.photos?.length > 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -148,6 +165,35 @@ function ProjectDetail() {
                   />
                 </motion.div>
               ))}
+            </motion.div>
+          )}
+
+          {activeTab === 'reels' && project.reels?.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            >
+              {project.reels.map((reel, index) => {
+                const videoId = getYouTubeId(reel);
+                return (
+                  <motion.div
+                    key={index}
+                    className="aspect-[9/16] bg-black rounded-lg overflow-hidden relative"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <iframe
+                      src={`https://www.youtube.com/embed/${videoId}?vq=hd1080&modestbranding=1&rel=0&shorts=1&hd=1&quality=hd1080&playsinline=1`}
+                      title={`Reel ${index + 1}`}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </motion.div>
+                );
+              })}
             </motion.div>
           )}
 
