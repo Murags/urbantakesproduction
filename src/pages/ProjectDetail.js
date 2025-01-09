@@ -4,6 +4,13 @@ import { FaArrowLeft, FaPlay } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 import { projects } from '../data/projects';
 
+// Add this helper function at the top of the file to extract YouTube ID
+const getYouTubeId = (url) => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
+};
+
 function ProjectDetail() {
   const { id } = useParams();
   const project = projects.find(p => p.id === parseInt(id));
@@ -53,17 +60,17 @@ function ProjectDetail() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
         </div>
 
-        {/* Project Title - Adjusted z-index */}
+        {/* Project Title - Enhanced visibility */}
         <div className="relative z-20 h-full flex flex-col justify-center items-center text-center px-4">
           <motion.span
-            className="font-space-grotesk text-[#c70f0f] text-sm tracking-[0.3em] uppercase block mb-4"
+            className="font-space-grotesk text-[#c70f0f] text-sm tracking-[0.3em] uppercase block mb-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             {project.category}
           </motion.span>
           <motion.h1
-            className="font-syncopate text-4xl md:text-6xl lg:text-7xl font-bold mb-6"
+            className="font-syncopate text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -76,9 +83,9 @@ function ProjectDetail() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            <span>{project.client}</span>
+            <span className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">{project.client}</span>
             <span>•</span>
-            <span>{project.year}</span>
+            <span className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">{project.year}</span>
           </motion.div>
         </div>
       </section>
@@ -107,17 +114,15 @@ function ProjectDetail() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="aspect-video bg-white/5 rounded-lg overflow-hidden relative"
+              className="aspect-video bg-black rounded-lg overflow-hidden relative"
             >
-              {/* Video embed would go here */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <motion.button
-                  className="w-20 h-20 rounded-full bg-[#c70f0f] flex items-center justify-center"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  <FaPlay className="w-8 h-8 text-white ml-2" />
-                </motion.button>
-              </div>
+              <iframe
+                src={`https://www.youtube.com/embed/${getYouTubeId(project.video)}?vq=hd1080&modestbranding=1&rel=0`}
+                title={project.title}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
             </motion.div>
           )}
 
