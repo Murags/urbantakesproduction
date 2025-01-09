@@ -7,7 +7,10 @@ export const projects = [
     year: "2024",
     image: "https://res.cloudinary.com/dgoviujpi/image/upload/v1736417603/rtlpvnyzehufsli2ebaf.jpg",
     description: "A comprehensive brand evolution project that showcases the company's journey through cinematic storytelling. This project combines corporate messaging with artistic visuals to create a compelling narrative.",
-    video: "https://www.youtube.com/watch?v=Y0zUVYSsyWU",
+    video: "https://www.youtube.com/embed/xM-5eMwXovA?si=RYr50Vw7du0jpHT1",
+    reels: [
+      "https://youtube.com/shorts/fI0nOBctnoI"
+    ],
     photos: [
       "https://res.cloudinary.com/dgoviujpi/image/upload/v1736417603/rtlpvnyzehufsli2ebaf.jpg",
       "https://res.cloudinary.com/dgoviujpi/image/upload/v1736417600/qcujoldpdovavuenlw9r.jpg",
@@ -29,7 +32,7 @@ export const projects = [
     year: "2024",
     image: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809",
     description: "A vibrant music video that captures the essence of the artist's vision through dynamic cinematography and creative storytelling.",
-    video: "https://vimeo.com/987654321",
+    video: "https://www.youtube.com/watch?v=Y0zUVYSsyWU",
     photos: [
       "https://images.unsplash.com/photo-1579546929518-9e396f3cc809",
       "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4",
@@ -90,4 +93,4 @@ export const projects = [
 ];
 
 // Categories array for filtering
-export const categories = ['All', 'Corporate', 'Documentary', 'Commercial', 'Music Video'];
+export const categories = ['All', 'Event Coverage', 'Creative Work', 'Music Video', 'Corporate'];
