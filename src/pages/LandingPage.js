@@ -211,17 +211,22 @@ function LandingPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2 }}
               >
-                {['Instagram', 'Youtube'].map((social, index) => (
+                {[
+                  { name: 'Instagram', icon: FaInstagram, url: 'https://www.instagram.com/urbantakesprd?igsh=cXRycmh4Z2pia2Jn' },
+                  { name: 'YouTube', icon: FaYoutube, url: 'https://youtube.com/@urbantakesproductions?si=YiG2X2g9GQ_6dc7A' }
+                ].map((social, index) => (
                   <motion.a
-                    key={social}
-                    href="#"
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sm font-space-grotesk text-white/40 hover:text-white transition-colors"
                     whileHover={{ x: 5 }}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 1.4 + index * 0.1 }}
                   >
-                    {social}
+                    {social.name}
                   </motion.a>
                 ))}
               </motion.div>
@@ -462,7 +467,7 @@ function LandingPage() {
 
           {/* View All Projects CTA */}
           <motion.div
-            className="text-center mt-16"
+            className="text-center mt-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -470,6 +475,7 @@ function LandingPage() {
             <motion.button
               className="group relative inline-flex items-center gap-3 px-8 py-4"
               whileHover={{ scale: 1.05 }}
+              onClick={() => navigate('/projects')}
             >
               <div className="absolute inset-0 bg-[#c70f0f] rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative font-space-grotesk text-lg tracking-wide">
@@ -843,8 +849,8 @@ function LandingPage() {
               <h4 className="font-syncopate text-lg font-bold mb-6">Follow Us</h4>
               <div className="flex gap-4">
                 {[
-                  { name: 'Instagram', icon: 'FaInstagram', url: 'https://instagram.com/urbantakesproduction' },
-                  { name: 'YouTube', icon: 'FaYoutube', url: 'https://youtube.com/@urbantakesproduction' }
+                  { name: 'Instagram', icon: 'FaInstagram', url: 'https://www.instagram.com/urbantakesprd?igsh=cXRycmh4Z2pia2Jn' },
+                  { name: 'YouTube', icon: 'FaYoutube', url: 'https://youtube.com/@urbantakesproductions?si=YiG2X2g9GQ_6dc7A' }
                 ].map((social, index) => (
                   <motion.a
                     key={social.name}
