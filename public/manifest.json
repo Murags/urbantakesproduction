@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Urban Takes",
+  "name": "Urban Takes Production - Video Production Company",
+  "description": "Professional video production company in Nairobi, Kenya, specializing in commercial, corporate, music videos, and documentary production.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,16 +11,22 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#c70f0f",
+  "background_color": "#000000",
+  "categories": ["business", "entertainment", "video production"],
+  "orientation": "portrait",
+  "lang": "en",
+  "dir": "ltr"
 }
