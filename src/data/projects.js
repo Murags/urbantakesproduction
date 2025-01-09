@@ -1,22 +1,22 @@
 export const projects = [
   {
     id: 1,
-    title: "Brand Evolution",
-    category: "Corporate",
-    client: "Tech Corp",
+    title: "Christmas Party",
+    category: "Music Video",
+    client: "ALX",
     year: "2024",
-    image: "https://images.unsplash.com/photo-1674574124649-778f9afc0e9c",
+    image: "https://res.cloudinary.com/dgoviujpi/image/upload/v1736417603/rtlpvnyzehufsli2ebaf.jpg",
     description: "A comprehensive brand evolution project that showcases the company's journey through cinematic storytelling. This project combines corporate messaging with artistic visuals to create a compelling narrative.",
-    video: "https://vimeo.com/123456789",
+    video: "https://www.youtube.com/watch?v=Y0zUVYSsyWU",
     photos: [
-      "https://images.unsplash.com/photo-1674574124649-778f9afc0e9c",
-      "https://images.unsplash.com/photo-1579546929518-9e396f3cc809",
-      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4",
+      "https://res.cloudinary.com/dgoviujpi/image/upload/v1736417603/rtlpvnyzehufsli2ebaf.jpg",
+      "https://res.cloudinary.com/dgoviujpi/image/upload/v1736417600/qcujoldpdovavuenlw9r.jpg",
+      "https://res.cloudinary.com/dgoviujpi/image/upload/v1736417597/tokd71kccyqwlvquovkj.jpg",
     ],
     details: {
       director: "Austin Morara",
-      cinematographer: "John Doe",
-      editor: "Jane Smith",
+      cinematographer: "Austin Morara",
+      editor: "Austin Morara",
       duration: "3:45",
       location: "Nairobi, Kenya"
     }
