@@ -61,6 +61,13 @@ function LandingPage() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // First, update the navigation items array
+  const navigationItems = [
+    { name: 'Work', section: 'work' },
+    { name: 'Services', section: 'services' },
+    { name: 'Contact', section: 'contact' }
+  ];
+
   return (
     <motion.div ref={containerRef} className="relative bg-black min-h-screen overflow-x-hidden">
       {/* Fixed Navigation Bar with dynamic background */}
@@ -72,21 +79,22 @@ function LandingPage() {
         <div className="container mx-auto px-6 md:px-12">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <motion.a
-              href="/"
-              className="relative z-50"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <img src="/logo.png" alt="Urban Takes Production" className="h-12 w-12 rounded-full" />
-            </motion.a>
+            <Link to="/">
+              <motion.img
+                src="/logo.png"
+                alt="Urban Takes Production"
+                className="h-16 w-16 object-contain"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
+              />
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
               {[
                 { name: 'Work', section: 'work' },
                 { name: 'Services', section: 'services' },
-                { name: 'About', section: 'about' },
                 { name: 'Contact', section: 'contact' }
               ].map((item, index) => (
                 <motion.button
@@ -281,43 +289,11 @@ function LandingPage() {
                 >
                   We craft compelling visual narratives that captivate audiences and leave lasting impressions.
                 </motion.p>
-
-                {/* CTA Section with adjusted spacing */}
-                <motion.div
-                  className="flex items-center justify-center gap-8 mb-20"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                >
-                  {/* Primary CTA */}
-                  <motion.button
-                    className="group relative px-8 py-4 overflow-hidden"
-                    onMouseMove={handleMouseMove}
-                    whileHover={{ scale: 1.05 }}
-                    animate={{
-                      x: mousePosition.x * 0.1,
-                      y: mousePosition.y * 0.1
-                    }}
-                  >
-                    <div className="absolute inset-0 bg-[#c70f0f] rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative flex items-center gap-3">
-                      <span className="font-space-grotesk text-lg tracking-wide">View Our Work</span>
-                      <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </motion.button>
-
-                  {/* Secondary CTA */}
-                  <motion.button
-                    className="font-space-grotesk text-lg text-white/60 hover:text-white transition-colors flex items-center gap-3"
-                    whileHover={{ x: 5 }}
-                  >
-                  </motion.button>
-                </motion.div>
               </motion.div>
 
             {/* Scroll Indicator with enhanced animation */}
             <motion.div
-              className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+              className="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}
@@ -620,30 +596,28 @@ function LandingPage() {
             </motion.h2>
           </div>
 
-          {/* Enhanced Clients Logo Grid */}
+          {/* Single Client Logo - ALX */}
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 items-center"
+            className="flex justify-center items-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => (
+            <motion.div
+              className="group relative flex items-center justify-center"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-[#c70f0f]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full blur-xl" />
               <motion.div
-                key={index}
-                className="group relative flex items-center justify-center"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
+                className="w-40 h-40 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 relative overflow-hidden group-hover:border-[#c70f0f]/50 transition-all duration-500 flex items-center justify-center p-4"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#c70f0f]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg blur-xl" />
-                <motion.div
-                  className="w-32 h-12 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 relative overflow-hidden group-hover:border-[#c70f0f]/50 transition-all duration-500"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  {/* Placeholder for client logos */}
-                </motion.div>
+                <img
+                  src="/alxlogo.png"
+                  alt="ALX Logo"
+                  className="w-full h-full object-contain rounded-full"
+                />
               </motion.div>
-            ))}
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -801,7 +775,6 @@ function LandingPage() {
                 {[
                   { name: 'Work', section: 'work' },
                   { name: 'Services', section: 'services' },
-                  { name: 'About', section: 'about' },
                   { name: 'Contact', section: 'contact' }
                 ].map((item, index) => (
                   <motion.li

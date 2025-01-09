@@ -6,7 +6,7 @@ export const projects = [
     client: "ALX",
     year: "2024",
     image: "https://res.cloudinary.com/dgoviujpi/image/upload/v1736417603/rtlpvnyzehufsli2ebaf.jpg",
-    description: "A comprehensive brand evolution project that showcases the company's journey through cinematic storytelling. This project combines corporate messaging with artistic visuals to create a compelling narrative.",
+    description: "Capturing the festive spirit and joyous moments of ALX's Christmas celebration. This event coverage showcases the warmth, camaraderie, and holiday cheer shared among team members, featuring stunning decorations, memorable interactions, and the overall magical atmosphere of the season.",
     video: "https://www.youtube.com/embed/xM-5eMwXovA?si=RYr50Vw7du0jpHT1",
     reels: [
     ],
@@ -31,7 +31,7 @@ export const projects = [
     client: "ALX",
     year: "2024",
     image: "https://res.cloudinary.com/dgoviujpi/image/upload/v1736434815/zzl9xlhnxnvoibygpbsa.jpg",
-    description: "A comprehensive brand evolution project that showcases the company's journey through cinematic storytelling. This project combines corporate messaging with artistic visuals to create a compelling narrative.",
+    description: "A spooktacular event coverage highlighting ALX's Halloween festivities. From creative costumes to themed decorations, this project captures the fun and excitement of the celebration, showcasing the company's vibrant culture and team spirit.",
     video: "",
     reels: [
         "https://youtube.com/shorts/fI0nOBctnoI"
@@ -58,7 +58,7 @@ export const projects = [
     client: "ALX",
     year: "2024",
     image: "https://res.cloudinary.com/dgoviujpi/image/upload/v1736435709/hmxobc5sexl7gtwtjjc2.jpg",
-    description: "An innovative commercial that introduces a new product to the market through compelling visual storytelling and cinematic excellence.",
+    description: "An immersive documentation of ALX's coding event that brings together tech enthusiasts and developers. This coverage highlights the innovative spirit, collaborative atmosphere, and breakthrough moments of participants as they code, learn, and create together.",
     video: "https://www.youtube.com/embed/oZz13V89yUc?si=wbDY-9W7LxBtxcdE",
     photos: [
       "https://res.cloudinary.com/dgoviujpi/image/upload/v1736435709/hmxobc5sexl7gtwtjjc2.jpg"
@@ -78,7 +78,7 @@ export const projects = [
     client: "ALX",
     year: "2024",
     image: "https://res.cloudinary.com/dgoviujpi/image/upload/v1736436125/mss7axpzlbc9dagptcum.jpg",
-    description: "A powerful documentary series that tells the stories of local communities and their journey towards sustainable development.",
+    description: "A dynamic showcase of Nairobi's tech networking event, capturing the energy and connections made during this professional mixer. The coverage highlights meaningful interactions, knowledge sharing, and the building of valuable relationships within the tech community.",
     video: "https://youtu.be/Y0zUVYSsyWU?si=AVxlhSfRDhcIVYmJ",
     photos: [
       "https://res.cloudinary.com/dgoviujpi/image/upload/v1736436125/mss7axpzlbc9dagptcum.jpg",
@@ -97,7 +97,7 @@ export const projects = [
     client: "ALX",
     year: "2024",
     image: "https://res.cloudinary.com/dgoviujpi/image/upload/v1736436751/ge2x6uyrp9gpwalepnqn.jpg",
-    description: "A powerful documentary series that tells the stories of local communities and their journey towards sustainable development.",
+    description: "An insightful documentation of ALX's personal branding workshop, focusing on professional development and career growth. This coverage captures key learning moments, interactive sessions, and practical exercises that help participants build and enhance their personal brand in the digital age.",
     video: "https://youtu.be/t6DM6lvv38w?si=_23AaD4EL8tsHS_X",
     photos: [
       "https://res.cloudinary.com/dgoviujpi/image/upload/v1736436751/ge2x6uyrp9gpwalepnqn.jpg",
