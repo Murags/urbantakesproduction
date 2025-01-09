@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
-import { FaArrowRight, FaPlay } from 'react-icons/fa';
+import { FaArrowRight, FaPlay, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { projects, categories } from '../data/projects';
 
@@ -59,26 +59,30 @@ function LandingPage() {
 
   const navigate = useNavigate();
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <motion.div ref={containerRef} className="relative bg-black min-h-screen overflow-x-hidden">
       {/* Fixed Navigation Bar with dynamic background */}
-      <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 md:px-12 py-4 transition-all duration-300 ${
-          isScrolled ? 'backdrop-blur-sm bg-black/50 border-b border-white/5' : 'bg-transparent'
+      <motion.div
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? 'bg-black/80 backdrop-blur-md py-4' : 'py-6'
         }`}
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8 }}
       >
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-6 sm:gap-12">
-            <motion.img
-              src="/logo.png"
-              alt="Urban Takes Production"
-              className="h-16 sm:h-20 md:h-24 w-16 sm:w-20 md:w-24 rounded-full object-cover -my-4"
-              whileHover={{ scale: 1.05 }}
-            />
-            <div className="hidden lg:flex items-center gap-8">
+        <div className="container mx-auto px-6 md:px-12">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <motion.a
+              href="/"
+              className="relative z-50"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <img src="/logo.png" alt="Urban Takes Production" className="h-12 w-12 rounded-full" />
+            </motion.a>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-8">
               {[
                 { name: 'Work', section: 'work' },
                 { name: 'Services', section: 'services' },
@@ -98,15 +102,63 @@ function LandingPage() {
                 </motion.button>
               ))}
             </div>
+
+            {/* Mobile Menu Button */}
+            <motion.button
+              className="md:hidden relative z-50 text-white p-2"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div className="flex flex-col gap-1.5">
+                <motion.span
+                  className="w-6 h-0.5 bg-white block"
+                  animate={isMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                />
+                <motion.span
+                  className="w-6 h-0.5 bg-white block"
+                  animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                />
+                <motion.span
+                  className="w-6 h-0.5 bg-white block"
+                  animate={isMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                />
+              </div>
+            </motion.button>
+
+            {/* Mobile Menu Overlay */}
+            <motion.div
+              className={`fixed inset-0 bg-black z-40 md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isMenuOpen ? 1 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="flex flex-col items-center justify-center h-full gap-8">
+                {[
+                  { name: 'Work', section: 'work' },
+                  { name: 'Services', section: 'services' },
+                  { name: 'About', section: 'about' },
+                  { name: 'Contact', section: 'contact' }
+                ].map((item, index) => (
+                  <motion.button
+                    key={item.name}
+                    onClick={() => {
+                      scrollToSection(item.section);
+                      setIsMenuOpen(false);
+                    }}
+                    className="text-xl font-space-grotesk text-white/60 hover:text-white transition-colors"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 * index }}
+                  >
+                    {item.name}
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
           </div>
-          <motion.button
-            className="px-4 py-2 md:px-6 md:py-3 rounded-full border border-white/10 text-sm font-space-grotesk tracking-wider hover:bg-white/5 transition-colors text-white"
-            whileHover={{ scale: 1.02 }}
-          >
-            Menu
-          </motion.button>
         </div>
-      </motion.nav>
+      </motion.div>
 
       {/* Hero Section with adjusted spacing */}
       <div id="home" className="relative min-h-screen">
@@ -159,7 +211,7 @@ function LandingPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2 }}
               >
-                {['Vimeo', 'Instagram', 'LinkedIn'].map((social, index) => (
+                {['Instagram', 'Youtube'].map((social, index) => (
                   <motion.a
                     key={social}
                     href="#"
@@ -314,7 +366,7 @@ function LandingPage() {
               </span>
             </motion.div>
             <motion.h2
-              className="font-syncopate text-4xl md:text-6xl font-bold mb-8"
+              className="font-syncopate text-4xl md:text-6xl font-bold mb-8 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -694,7 +746,9 @@ function LandingPage() {
                 >
                   <span className="text-2xl">{item.icon}</span>
                   <div>
-                    <h3 className="font-syncopate text-lg font-bold mb-2">{item.title}</h3>
+                    <h3 className="font-syncopate text-lg font-bold text-white mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+                      {item.title}
+                    </h3>
                     <p className="font-space-grotesk text-white/60">{item.info}</p>
                   </div>
                 </motion.div>
@@ -788,14 +842,19 @@ function LandingPage() {
             <div>
               <h4 className="font-syncopate text-lg font-bold mb-6">Follow Us</h4>
               <div className="flex gap-4">
-                {['Instagram', 'Twitter', 'LinkedIn', 'Vimeo'].map((social, index) => (
+                {[
+                  { name: 'Instagram', icon: 'FaInstagram', url: 'https://instagram.com/urbantakesproduction' },
+                  { name: 'YouTube', icon: 'FaYoutube', url: 'https://youtube.com/@urbantakesproduction' }
+                ].map((social, index) => (
                   <motion.a
-                    key={index}
-                    href="#"
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-[#c70f0f] transition-colors"
                     whileHover={{ scale: 1.1 }}
                   >
-                    {social[0]}
+                    {social.name === 'Instagram' ? <FaInstagram size={18} /> : <FaYoutube size={18} />}
                   </motion.a>
                 ))}
               </div>
