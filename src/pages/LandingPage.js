@@ -142,10 +142,10 @@ function LandingPage() {
               transition={{ duration: 0.3 }}
             >
               <div className="flex flex-col items-center justify-center h-full gap-8">
+                {/* Navigation Items */}
                 {[
                   { name: 'Work', section: 'work' },
                   { name: 'Services', section: 'services' },
-                  { name: 'About', section: 'about' },
                   { name: 'Contact', section: 'contact' }
                 ].map((item, index) => (
                   <motion.button
@@ -162,6 +162,27 @@ function LandingPage() {
                     {item.name}
                   </motion.button>
                 ))}
+
+                {/* Social Links for Mobile */}
+                <div className="flex gap-6 mt-8">
+                  {[
+                    { name: 'Instagram', icon: FaInstagram, url: 'https://www.instagram.com/urbantakesprd?igsh=cXRycmh4Z2pia2Jn' },
+                    { name: 'YouTube', icon: FaYoutube, url: 'https://youtube.com/@urbantakesproductions?si=YiG2X2g9GQ_6dc7A' }
+                  ].map((social, index) => (
+                    <motion.a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/60 hover:text-white transition-colors"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 + (0.1 * index) }}
+                    >
+                      <social.icon size={24} />
+                    </motion.a>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </div>
