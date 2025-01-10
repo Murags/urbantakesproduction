@@ -654,87 +654,66 @@ function LandingPage() {
             </motion.h2>
           </div>
 
-          {/* Contact Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Contact Form */}
-            <motion.div
-              className="backdrop-blur-sm border border-white/10 rounded-lg p-8"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <form className="space-y-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-space-grotesk text-white/60">Name</label>
-                  <input
-                    type="text"
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#c70f0f] transition-colors"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-space-grotesk text-white/60">Email</label>
-                  <input
-                    type="email"
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#c70f0f] transition-colors"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-space-grotesk text-white/60">Message</label>
-                  <textarea
-                    rows={6}
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#c70f0f] transition-colors"
-                  />
-                </div>
-                <motion.button
-                  className="w-full bg-[#c70f0f] text-white rounded-lg px-6 py-3 font-space-grotesk hover:bg-[#c70f0f]/90 transition-colors"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Send Message
-                </motion.button>
-              </form>
-            </motion.div>
+          {/* Contact Form */}
+          <motion.div
+            className="max-w-2xl mx-auto backdrop-blur-sm border border-white/10 rounded-lg p-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              const message = e.target.message.value;
+              window.location.href = `mailto:urbantakesproductions@gmail.com?subject=Project Inquiry&body=${encodeURIComponent(message)}`;
+            }}>
+              <div className="space-y-2">
+                <label className="text-sm font-space-grotesk text-white/60">Message</label>
+                <textarea
+                  name="message"
+                  rows={6}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#c70f0f] transition-colors"
+                  placeholder="Tell us about your project..."
+                />
+              </div>
+              <motion.button
+                type="submit"
+                className="w-full mt-6 bg-[#c70f0f] text-white rounded-lg px-6 py-3 font-space-grotesk hover:bg-[#c70f0f]/90 transition-colors"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Send Message
+              </motion.button>
+            </form>
+          </motion.div>
 
-            {/* Contact Info */}
-            <motion.div
-              className="space-y-8"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              {[
-                {
-                  title: "Location",
-                  info: "Nairobi, Kenya",
-                  icon: "📍"
-                },
-                {
-                  title: "Email",
-                  info: "urbantakesproductions@gmail.com",
-                  icon: "✉️"
-                },
-                {
-                  title: "Phone",
-                  info: "+254 712 677 131",
-                  icon: "📞"
-                }
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="flex items-start gap-6 p-6 rounded-lg border border-white/10 backdrop-blur-sm"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <span className="text-2xl">{item.icon}</span>
-                  <div>
-                    <h3 className="font-syncopate text-lg font-bold text-white mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
-                      {item.title}
-                    </h3>
-                    <p className="font-space-grotesk text-white/60">{item.info}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
+          {/* Contact Info */}
+          <motion.div
+            className="mt-16 flex flex-wrap justify-center gap-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="text-center">
+              <span className="text-2xl mb-2 block">📍</span>
+              <h3 className="font-syncopate text-lg font-bold text-white mb-1">Location</h3>
+              <p className="font-space-grotesk text-white/60">Nairobi, Kenya</p>
+            </div>
+            <div className="text-center">
+              <span className="text-2xl mb-2 block">📞</span>
+              <h3 className="font-syncopate text-lg font-bold text-white mb-1">Phone</h3>
+              <p className="font-space-grotesk text-white/60">+254 712 677 131</p>
+            </div>
+            <div className="text-center">
+              <span className="text-2xl mb-2 block">✉️</span>
+              <h3 className="font-syncopate text-lg font-bold text-white mb-1">Email</h3>
+              <a
+                href="mailto:urbantakesproductions@gmail.com"
+                className="font-space-grotesk text-white/60 hover:text-white transition-colors"
+              >
+                urbantakesproductions@gmail.com
+              </a>
+            </div>
+          </motion.div>
         </div>
       </section>
 
