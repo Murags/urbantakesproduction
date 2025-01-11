@@ -132,10 +132,10 @@ function ProjectDetail() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="aspect-video bg-black rounded-lg overflow-hidden relative"
+              className="max-w-4xl mx-auto aspect-video bg-black rounded-lg overflow-hidden relative"
             >
               <iframe
-                src={`https://www.youtube.com/embed/${getYouTubeId(project.video)}?vq=hd1080&modestbranding=1&rel=0&hd=1&quality=hd1080&playsinline=1`}
+                src={`https://www.youtube.com/embed/${getYouTubeId(project.video)}?vq=hd1080&modestbranding=1&rel=0&hd=1&quality=hd1080&playsinline=1&origin=${window.location.origin}&html5=1&enablejsapi=1`}
                 title={project.title}
                 className="w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -172,20 +172,20 @@ function ProjectDetail() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8"
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"
             >
               {project.reels.map((reel, index) => {
                 const videoId = getYouTubeId(reel);
                 return (
                   <motion.div
                     key={index}
-                    className="aspect-[9/16] bg-black rounded-lg overflow-hidden relative"
+                    className="aspect-[9/16] max-h-[50vh] bg-black rounded-lg overflow-hidden relative"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
                     <iframe
-                      src={`https://www.youtube.com/embed/${videoId}?vq=hd1080&modestbranding=1&rel=0&shorts=1&hd=1&quality=hd1080&playsinline=1`}
+                      src={`https://www.youtube.com/embed/${videoId}?vq=hd1080&modestbranding=1&rel=0&shorts=1&hd=1&quality=hd1080&playsinline=1&origin=${window.location.origin}&html5=1&enablejsapi=1`}
                       title={`Reel ${index + 1}`}
                       className="w-full h-full"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
