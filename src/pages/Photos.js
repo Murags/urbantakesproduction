@@ -54,7 +54,6 @@ function Photos() {
     preloadImages();
   }, [activeCategory]);
 
-  // Add Modal Component
   const PhotoModal = ({ photo, onClose }) => (
     <motion.div
       initial={{ opacity: 0 }}
