@@ -383,10 +383,16 @@ function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              {categories.map((category, index) => (
+              {[...categories, 'Photography'].map((category, index) => (
                 <motion.button
                   key={category}
-                  onClick={() => setActiveCategory(category)}
+                  onClick={() => {
+                    if (category === 'Photography') {
+                      navigate('/photos');
+                    } else {
+                      setActiveCategory(category);
+                    }
+                  }}
                   className={`px-6 py-2 rounded-full border text-sm font-space-grotesk tracking-wider transition-all duration-300 relative z-20
                     ${activeCategory === category
                       ? 'border-[#c70f0f] bg-[#c70f0f]/20 text-white'
@@ -464,7 +470,7 @@ function LandingPage() {
 
           {/* View All Projects CTA */}
           <motion.div
-            className="text-center mt-8"
+            className="text-center mt-8 flex justify-center gap-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -477,6 +483,18 @@ function LandingPage() {
               <div className="absolute inset-0 bg-[#c70f0f] rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative font-space-grotesk text-lg tracking-wide">
                 View All Projects
+              </span>
+              <FaArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </motion.button>
+
+            <motion.button
+              className="group relative inline-flex items-center gap-3 px-8 py-4"
+              whileHover={{ scale: 1.05 }}
+              onClick={() => navigate('/photos')}
+            >
+              <div className="absolute inset-0 bg-white/10 rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+              <span className="relative font-space-grotesk text-lg tracking-wide">
+                View Photos
               </span>
               <FaArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </motion.button>
@@ -617,28 +635,39 @@ function LandingPage() {
             </motion.h2>
           </div>
 
-          {/* Single Client Logo - ALX */}
+          {/* Client Logos Grid */}
           <motion.div
-            className="flex justify-center items-center"
+            className="flex flex-wrap justify-center items-center gap-12 md:gap-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <motion.div
-              className="group relative flex items-center justify-center"
-              whileHover={{ scale: 1.05 }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-[#c70f0f]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full blur-xl" />
+            {[
+              { name: 'ALX', logo: '/alxlogo.png' },
+              { name: 'ALA', logo: '/ALA.png' },
+              { name: 'Tech Safari', logo: '/techSafari-bg.png' },
+              { name: 'Alloy', logo: '/alloy-bg.png' }
+            ].map((client, index) => (
               <motion.div
-                className="w-40 h-40 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 relative overflow-hidden group-hover:border-[#c70f0f]/50 transition-all duration-500 flex items-center justify-center p-4"
+                key={client.name}
+                className="group relative flex items-center justify-center"
+                whileHover={{ scale: 1.05 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
               >
-                <img
-                  src="/alxlogo.png"
-                  alt="ALX Logo"
-                  className="w-full h-full object-contain rounded-full"
-                />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#c70f0f]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full blur-xl" />
+                <motion.div
+                  className="w-40 h-40 md:w-48 md:h-48 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 relative overflow-hidden group-hover:border-[#c70f0f]/50 transition-all duration-500 flex items-center justify-center p-6"
+                >
+                  <img
+                    src={client.logo}
+                    alt={`${client.name} Logo`}
+                    className="w-full h-full object-contain rounded-full"
+                  />
+                </motion.div>
               </motion.div>
-            </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
