@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaTimes } from 'react-icons/fa';
 import { photos, photoCategories } from '../data/photosData';
@@ -11,23 +11,27 @@ function Photos() {
   const navigate = useNavigate();
 
   // Get all photos with optimized Cloudinary URLs
-  const allPhotos = photos.map(photo => {
-    // Optimize Cloudinary URL for better performance
-    const optimizedUrl = photo.url.replace('upload/', 'upload/w_800,f_auto,q_auto/')
-    // Create a low-quality placeholder
-    const placeholderUrl = photo.url.replace('upload/', 'upload/w_50,e_blur:100,f_auto,q_auto/')
+  const allPhotos = useMemo(() => (
+    photos.map(photo => {
+      // Optimize Cloudinary URL for better performance
+      const optimizedUrl = photo.url.replace('upload/', 'upload/w_800,f_auto,q_auto/');
+      // Create a low-quality placeholder
+      const placeholderUrl = photo.url.replace('upload/', 'upload/w_50,e_blur:100,f_auto,q_auto/');
 
-    return {
-      ...photo,
-      url: optimizedUrl,
-      placeholderUrl
-    };
-  });
+      return {
+        ...photo,
+        url: optimizedUrl,
+        placeholderUrl
+      };
+    })
+  ), []);
 
   // Filter photos based on active category
-  const filteredPhotos = activeCategory === 'All'
-    ? allPhotos
-    : allPhotos.filter(photo => photo.category === activeCategory);
+  const filteredPhotos = useMemo(() => (
+    activeCategory === 'All'
+      ? allPhotos
+      : allPhotos.filter(photo => photo.category === activeCategory)
+  ), [activeCategory, allPhotos]);
 
   // Preload images
   useEffect(() => {
@@ -52,7 +56,7 @@ function Photos() {
     };
 
     preloadImages();
-  }, [activeCategory]);
+  }, [filteredPhotos]);
 
   const PhotoModal = ({ photo, onClose }) => (
     <motion.div
