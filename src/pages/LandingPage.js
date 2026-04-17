@@ -1,11 +1,104 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
-import { FaArrowRight, FaPlay, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaArrowRight, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import { projects, categories } from '../data/projects';
+import { showcaseSections } from '../data/showcaseSections';
+import { projects } from '../data/projects';
+
+const workSectionSlugs = [
+  'events-and-interviews',
+  'fashion',
+  'creative-work',
+  'music'
+];
+
+const sectionLookup = Object.fromEntries(
+  workSectionSlugs
+    .map((slug) => showcaseSections.find((section) => section.slug === slug))
+    .filter(Boolean)
+    .map((section) => [section.slug, section])
+);
+
+const projectLookup = Object.fromEntries(projects.map((project) => [project.id, project]));
+const landingCoverImages = {
+  events:
+    'https://res.cloudinary.com/dgoviujpi/image/upload/v1776420839/urbantakes/section-covers/events-and-interviews-cover.jpg',
+  fashion:
+    'https://res.cloudinary.com/dgoviujpi/image/upload/v1776420842/urbantakes/section-covers/fashion-cover.jpg',
+  music:
+    'https://res.cloudinary.com/dgoviujpi/image/upload/v1776420846/urbantakes/section-covers/music-cover.png',
+  creative:
+    'https://res.cloudinary.com/dgoviujpi/image/upload/v1776420850/urbantakes/section-covers/creative-work-cover.jpg'
+};
+
+const workFilterSections = workSectionSlugs
+  .map((slug) => sectionLookup[slug])
+  .filter(Boolean);
+
+const landingWorkCards = [
+  {
+    id: 'nairobi-mixer',
+    type: 'project',
+    cardClassName: '',
+    aspectClassName: 'aspect-[16/9]',
+    project: projectLookup[4],
+    image: landingCoverImages.events
+  },
+  {
+    id: 'christmas-party',
+    type: 'project',
+    cardClassName: '',
+    aspectClassName: 'aspect-[16/9]',
+    project: projectLookup[1]
+  },
+  {
+    id: 'fashion',
+    type: 'section',
+    cardClassName: '',
+    aspectClassName: 'aspect-[16/10]',
+    section: sectionLookup.fashion,
+    title: 'In Studio\nIn style',
+    image: landingCoverImages.fashion,
+    badge: 'Fashion'
+  },
+  {
+    id: 'music',
+    type: 'section',
+    cardClassName: '',
+    aspectClassName: 'aspect-[16/10]',
+    section: sectionLookup.music,
+    title: 'Music',
+    image: landingCoverImages.music,
+    badge: 'Music'
+  },
+  {
+    id: 'creative',
+    type: 'section',
+    cardClassName: '',
+    aspectClassName: 'aspect-[16/10]',
+    section: sectionLookup['creative-work'],
+    title: 'Creative',
+    image: landingCoverImages.creative,
+    badge: 'Creative Work',
+    accentText: 'Kilima Gardens'
+  },
+  {
+    id: 'halloween-party',
+    type: 'project',
+    cardClassName: '',
+    aspectClassName: 'aspect-[16/9]',
+    project: projectLookup[2]
+  },
+  {
+    id: 'codekesha',
+    type: 'project',
+    cardClassName: 'md:col-start-1',
+    aspectClassName: 'aspect-[16/9]',
+    project: projectLookup[3]
+  }
+].filter((card) => (card.type === 'project' ? card.project : card.section));
 
 function LandingPage() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -30,25 +123,9 @@ function LandingPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleMouseMove = (e) => {
-    const { currentTarget, clientX, clientY } = e;
-    const { left, top } = currentTarget.getBoundingClientRect();
-
-    setMousePosition({
-      x: clientX - left - currentTarget.offsetWidth / 2,
-      y: clientY - top - currentTarget.offsetHeight / 2
-    });
-  };
-
   // Parallax effects
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
-  const [activeCategory, setActiveCategory] = useState('All');
-
-  const filteredProjects = activeCategory === 'All'
-    ? projects
-    : projects.filter(project => project.category === activeCategory);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -60,13 +137,6 @@ function LandingPage() {
   const navigate = useNavigate();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // First, update the navigation items array
-  const navigationItems = [
-    { name: 'Work', section: 'work' },
-    { name: 'Services', section: 'services' },
-    { name: 'Contact', section: 'contact' }
-  ];
 
   return (
     <motion.div ref={containerRef} className="relative bg-black min-h-screen overflow-x-hidden">
@@ -342,7 +412,6 @@ function LandingPage() {
 
       {/* Featured Projects Section */}
       <section id="work" className="relative min-h-screen bg-black/90 py-24">
-        {/* Background Elements - Lower z-index */}
         <motion.div
           className="absolute inset-0 opacity-20 z-0"
           initial={{ opacity: 0 }}
@@ -353,9 +422,7 @@ function LandingPage() {
           <div className="absolute left-0 bottom-0 w-1/2 h-1/2 bg-yellow-500/20 blur-[120px]" />
         </motion.div>
 
-        {/* Section Content - Higher z-index */}
         <div className="container mx-auto px-6 md:px-12 relative z-10">
-          {/* Section Header */}
           <div className="text-center mb-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -373,102 +440,163 @@ function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              FEATURED PROJECTS
+              ORDER OF THE WORK
             </motion.h2>
+            <motion.p
+              className="max-w-3xl mx-auto font-space-grotesk text-white/60 text-base md:text-lg"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.25 }}
+            >
+              The landing page now introduces the four main directions first, while each section opens into its own page and the current background treatment stays untouched.
+            </motion.p>
 
-            {/* Category Filters - Ensure it's clickable */}
             <motion.div
               className="flex flex-wrap justify-center gap-4 mb-12 relative z-20"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              {[...categories, 'Photography'].map((category, index) => (
+              <motion.button
+                className="px-6 py-2 rounded-full border border-[#c70f0f] bg-[#c70f0f]/20 text-sm font-space-grotesk tracking-wider text-white"
+                whileHover={{ scale: 1.05 }}
+              >
+                All
+              </motion.button>
+              {workFilterSections.map((section) => (
                 <motion.button
-                  key={category}
-                  onClick={() => {
-                    if (category === 'Photography') {
-                      navigate('/photos');
-                    } else {
-                      setActiveCategory(category);
-                    }
-                  }}
-                  className={`px-6 py-2 rounded-full border text-sm font-space-grotesk tracking-wider transition-all duration-300 relative z-20
-                    ${activeCategory === category
-                      ? 'border-[#c70f0f] bg-[#c70f0f]/20 text-white'
-                      : 'border-white/10 text-white/60 hover:text-white hover:bg-white/5'
-                    }`}
+                  key={section.slug}
+                  onClick={() => navigate(`/work/${section.slug}`)}
+                  className="px-6 py-2 rounded-full border border-white/10 text-sm font-space-grotesk tracking-wider text-white/60 transition-all duration-300 relative z-20 hover:text-white hover:bg-white/5"
                   whileHover={{ scale: 1.05 }}
                 >
-                  {category}
+                  {section.label}
                 </motion.button>
               ))}
+              <motion.button
+                onClick={() => navigate('/photos')}
+                className="px-6 py-2 rounded-full border border-white/10 text-sm font-space-grotesk tracking-wider text-white/60 transition-all duration-300 relative z-20 hover:text-white hover:bg-white/5"
+                whileHover={{ scale: 1.05 }}
+              >
+                Photography
+              </motion.button>
             </motion.div>
           </div>
 
-          {/* Projects Grid - Lower z-index than filters */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                className="group relative aspect-[16/9] overflow-hidden rounded-lg cursor-pointer"
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                onClick={() => navigate(`/project/${project.id}`)}
-              >
-                {/* Project Image with Overlay */}
-                <motion.div
-                  className="absolute inset-0"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 z-10" />
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                  />
-                </motion.div>
+            {landingWorkCards.map((card, index) => {
+              if (card.type === 'project') {
+                const project = card.project;
 
-                {/* Project Content */}
-                <div className="absolute inset-0 z-20 p-8 flex flex-col justify-end transform transition-transform duration-300 group-hover:translate-y-0">
-                  <div className="flex items-end justify-between">
-                    <div>
-                      <span className="inline-block px-3 py-1 bg-[#c70f0f] rounded-full text-xs font-space-grotesk tracking-wider text-white mb-3">
-                        {project.category}
-                      </span>
-                      <h3 className="font-syncopate text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2 text-white drop-shadow-lg">
-                        {project.title}
-                      </h3>
-                      <span className="text-white/80 text-xs sm:text-sm font-space-grotesk">
-                        {project.client}
-                      </span>
+                return (
+                  <motion.div
+                    key={card.id}
+                    className={`group relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 cursor-pointer shadow-[0_24px_80px_rgba(0,0,0,0.35)] ${card.cardClassName}`}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: index * 0.12 }}
+                    onClick={() => navigate(`/project/${project.id}`)}
+                  >
+                    <div className={`relative overflow-hidden ${card.aspectClassName}`}>
+                      <motion.div
+                        className="absolute inset-0"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.6 }}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/10 opacity-90 z-10" />
+                        <img
+                          src={card.image || project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </motion.div>
                     </div>
-                    <motion.button
-                      className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full font-space-grotesk text-sm text-white group/btn"
-                      whileHover={{ x: 5 }}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent triggering parent onClick
-                        navigate(`/project/${project.id}`);
-                      }}
+
+                    <div className="absolute inset-0 z-20 p-6 md:p-7 flex flex-col justify-between">
+                      <div className="flex items-start justify-between gap-4">
+                        <span className="inline-flex items-center rounded-full bg-[#c70f0f] px-3 py-1 text-[11px] font-space-grotesk tracking-[0.18em] uppercase text-white">
+                          {project.category}
+                        </span>
+                        <div className="rounded-full bg-black/30 px-3 py-1 text-xs font-space-grotesk text-white/75 backdrop-blur-sm">
+                          {project.year}
+                        </div>
+                      </div>
+
+                      <div className="flex items-end justify-between gap-6">
+                        <div className="max-w-xl">
+                          <h3 className="font-syncopate text-2xl md:text-4xl font-bold mb-2 text-white drop-shadow-lg">
+                            {project.title}
+                          </h3>
+                          <p className="font-space-grotesk text-sm md:text-base text-white/75">
+                            {project.client}
+                          </p>
+                        </div>
+                        <motion.button
+                          className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full font-space-grotesk text-sm text-white group/btn"
+                          whileHover={{ x: 5 }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/project/${project.id}`);
+                          }}
+                        >
+                          View
+                          <FaArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                        </motion.button>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              }
+
+              return (
+                <motion.div
+                  key={card.id}
+                  className={`group relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 cursor-pointer shadow-[0_24px_80px_rgba(0,0,0,0.35)] ${card.cardClassName}`}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.12 }}
+                  onClick={() => navigate(`/work/${card.section.slug}`)}
+                >
+                  <div className={`relative overflow-hidden ${card.aspectClassName}`}>
+                    <motion.div
+                      className="absolute inset-0"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.6 }}
                     >
-                      View
-                      <FaArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                    </motion.button>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-black/5 opacity-95 z-10" />
+                      <img
+                        src={card.image}
+                        alt={card.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </motion.div>
                   </div>
-                </div>
-                {/* Year Label */}
-                <div className="absolute top-6 right-6 z-20 bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full">
-                  <span className="font-space-grotesk text-sm text-white">
-                    {project.year}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
+
+                  <div className="absolute inset-0 z-20 p-6 md:p-7 flex flex-col justify-between">
+                    <div>
+                      {card.accentText && (
+                        <span className="inline-block font-space-grotesk text-xs md:text-sm uppercase tracking-[0.3em] text-white/70 mb-2">
+                          {card.accentText}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex items-end justify-between gap-6">
+                      <div className="max-w-xl">
+                        <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-[11px] font-space-grotesk tracking-[0.18em] uppercase text-white/75 backdrop-blur-sm mb-4">
+                          {card.badge}
+                        </span>
+                        <h3 className="font-syne text-3xl md:text-4xl font-bold leading-[0.95] text-white drop-shadow-lg whitespace-pre-line">
+                          {card.title}
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
-          {/* View All Projects CTA */}
           <motion.div
             className="text-center mt-8 flex justify-center gap-4"
             initial={{ opacity: 0, y: 20 }}
@@ -875,12 +1003,18 @@ function LandingPage() {
               © 2024 Urban Takes Production. All rights reserved.
             </p>
             <div className="flex gap-6">
-              <a href="#" className="font-space-grotesk text-white/40 hover:text-white text-sm transition-colors">
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="font-space-grotesk text-white/40 hover:text-white text-sm transition-colors"
+              >
                 Privacy Policy
-              </a>
-              <a href="#" className="font-space-grotesk text-white/40 hover:text-white text-sm transition-colors">
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="font-space-grotesk text-white/40 hover:text-white text-sm transition-colors"
+              >
                 Terms of Service
-              </a>
+              </button>
             </div>
           </div>
         </div>
